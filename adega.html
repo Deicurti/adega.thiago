@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adega</title>
+    <link rel="stylesheet" href="style.css">
+<html>
+<head>
+    <title>Tabela de Whisky</title>
+</head>
+<body>
+    <h1>Tabela de Whisky</h1>
+    <button onclick="mostrarWhiskies()">Mostrar Whiskies</button>
+    <button onclick="mostrarMaisCaro()">Mostrar Whisky Mais Caro</button>
+    <button onclick="aplicarDesconto()">Aplicar Desconto</button>
+    <br><br>
+    <label for="faixaPreco">Mostrar por faixa de preço:</label>
+    <select id="faixaPreco" onchange="mostrarPorFaixa()">
+        <option value="0">Todas</option>
+        <option value="1">Menos de R$ 120</option>
+        <option value="2">Entre R$ 120 e R$ 150</option>
+        <option value="3">Mais de R$ 150</option>
+    </select>
+    <ul id="listaWhiskies"></ul>
+    <ul id="listaWhiskiesDesconto"></ul>
+    <ul id="listaWhiskiesFaixa"></ul>
+
+    <script>
+        const whiskies = [
+            { nome: "Red Label", preco: 100, especificacoes: "Blended Scotch Whisky, 40% ABV" },
+            { nome: "Black Label", preco: 180, especificacoes: "Blended Scotch Whisky, 40% ABV, aged 12 years" },
+            { nome: "Double Black", preco: 230, especificacoes: "Blended Scotch Whisky, 40% ABV, intensely smoky" },
+            { nome: "Green Label", preco: 350, especificacoes: "Blended Malt Scotch Whisky, 43% ABV, aged 15 years" },
+            { nome: "Gold Label", preco: 450, especificacoes: "Blended Scotch Whisky, 40% ABV, creamy with honey notes" },
+            { nome: "Blue Label", preco: 1200, especificacoes: "Blended Scotch Whisky, 40% ABV, premium blend" },
+            { nome: "Chivas Regal 12 Anos", preco: 180, especificacoes: "Blended Scotch Whisky, 40% ABV, aged 12 years" },
+            { nome: "Chivas Regal 18 Anos", preco: 450, especificacoes: "Blended Scotch Whisky, 40% ABV, aged 18 years" },
+            { nome: "Chivas Regal 25 anos", preco: 2000, especificacoes: "Blended Scotch Whisky, 40% ABV, aged 25 years" },
+            { nome: "Ballantine's Finest", preco: 100, especificacoes: "Blended Scotch Whisky, 40% ABV" },
+            { nome: "Ballantine's 12 Anos", preco: 180, especificacoes: "Blended Scotch Whisky, 40% ABV, aged 12 years" },
+            { nome: "Ballantine's 17 Anos", preco: 450, especificacoes: "Blended Scotch Whisky, 40% ABV, aged 17 years" },
+            { nome: "Ballantine's 21 Anos", preco: 800, especificacoes: "Blended Scotch Whisky, 43% ABV, aged 21 years" },
+            { nome: "Jack Daniel's Old No. 7", preco: 180, especificacoes: "Tennessee Whiskey, 40% ABV" },
+            { nome: "Jack Daniel's Single Barrel", preco: 350, especificacoes: "Tennessee Whiskey, 47% ABV" },
+            { nome: "Jack Daniel's Gentleman Jack", preco: 230, especificacoes: "Tennessee Whiskey, 40% ABV, double mellowed" },
+            { nome: "Jameson Irish Whiskey", preco: 150, especificacoes: "Irish Whiskey, 40% ABV" },
+            { nome: "Buchanan's 12 Anos", preco: 200, especificacoes: "Blended Scotch Whisky, 40% ABV, aged 12 years" },
+            { nome: "Buchanan's 18 Anos", preco: 450, especificacoes: "Blended Scotch Whisky, 40% ABV, aged 18 years" },
+            { nome: "Buchanan's Red Seal", preco: 900, especificacoes: "Blended Scotch Whisky, 40% ABV, premium blend" },
+            { nome: "Old Parr 12 Anos", preco: 180, especificacoes: "Blended Scotch Whisky, 40% ABV, aged 12 years" },
+            { nome: "Old Parr 18 Anos", preco: 450, especificacoes: "Blended Scotch Whisky, 40% ABV, aged 18 years" },
+            { nome: "Passport Scotch", preco: 80, especificacoes: "Blended Scotch Whisky, 40% ABV" },
+        ];
+
+        function mostrarWhiskies() {
+            let lista = document.getElementById("listaWhiskies");
+            lista.innerHTML = ""; 
+
+            for (let i = 0; i < whiskies.length; i++) {
+                let item = document.createElement("li");
+                item.innerHTML = `${whiskies[i].nome} - R$ ${whiskies[i].preco} <br><small>${whiskies[i].especificacoes}</small>`;
+                lista.appendChild(item);
+            }
+        }
+
+        function mostrarMaisCaro() {
+            let maisCaro = whiskies[0];
+            for (let i = 1; i < whiskies.length; i++) {
+                if (whiskies[i].preco > maisCaro.preco) {
+                    maisCaro = whiskies[i];
+                }
+            }
+            alert("O whisky mais caro é: " + maisCaro.nome + " - R$ " + maisCaro.preco);
+        }
+
+        function aplicarDesconto() {
+            let desconto = 10; 
+            let lista = document.getElementById("listaWhiskiesDesconto");
+            lista.innerHTML = ""; 
+
+            for (let i = 0; i < whiskies.length; i++) {
+                let novoPreco = whiskies[i].preco - desconto;
+                if (novoPreco < 0) {
+                    novoPreco = 0;
+                }
+                let item = document.createElement("li");
+                item.innerHTML = `${whiskies[i].nome} - R$ ${novoPreco} <br><small>${whiskies[i].especificacoes}</small>`;
+                lista.appendChild(item);
+            }
+        }
+
+        function mostrarPorFaixa() {
+            let faixa = document.getElementById("faixaPreco").value;
+            let lista = document.getElementById("listaWhiskiesFaixa");
+            lista.innerHTML = ""; 
+
+            for (let i = 0; i < whiskies.length; i++) {
+                let mostrar = false;
+                switch (faixa) {
+                    case "1":
+                        if (whiskies[i].preco < 120) mostrar = true;
+                        break;
+                    case "2":
+                        if (whiskies[i].preco >= 120 && whiskies[i].preco <= 150) mostrar = true;
+                        break;
+                    case "3":
+                        if (whiskies[i].preco > 150) mostrar = true;
+                        break;
+                    default:
+                        mostrar = true;
+                }
+
+                if (mostrar) {
+                    let item = document.createElement("li");
+                    item.innerHTML = `${whiskies[i].nome} - R$ ${whiskies[i].preco} <br><small>${whiskies[i].especificacoes}</small>`;
+                    lista.appendChild(item);
+                }
+            }
+        }
+    </script>
+</body>
+</html>
